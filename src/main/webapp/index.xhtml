@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Guardiões do Planeta</title>
+        <link href="http://fonts.cdnfonts.com/css/lemonade-stand" rel="stylesheet"/>
+        <style>
+            body, html {
+              height: 100%;
+              margin: 0;
+              font-family: 'Lemonade Stand', sans-serif;
+            }
+            .body_fundo {
+                background:url(#{request.contextPath}/images/main2.jpg) no-repeat center center fixed;
+                background-size: cover;
+            }
+            .h1_css  {
+                border-radius: 25px;
+                display: table; /* keep the background color wrapped tight */
+                margin: 20px auto 0px auto; /* keep the table centered */
+                padding: 10px;
+                text-align: center; color: white; font-weight: 100; 
+                background: rgb(85, 58, 1, 0.8);
+                backdrop-filter: saturate(180%) blur(10px);
+            }
+            .div1 {
+                padding: 40px 0;
+                text-align: center;
+                margin: 10px;
+            }
+            .div2 { padding: 10px; }
+            .img_play {
+                width: 200px; height: 200px; padding: 10px;
+            }
+            .button {
+                width:20%;
+                height:50px;
+            }
+        </style>
+        <script type="text/javascript">
+            function sairJogo() {
+                var sair = confirm('Tens a certeza que queres sair do jogo?');
+                if (sair) {
+                    alert('Terminaste o jogo!');
+                    window.close();
+                } 
+            }
+            function sound() {
+                new Audio("../images/music/gum.mp3").play();
+            }
+            function glow() {
+                var element = document.getElementById("play");
+                element.style.backgroundColor = "rgba(41, 51, 33, 0.6)";
+                sound();
+            }
+        </script>
+    </h:head>
+    <h:body styleClass="body_fundo">
+        <h1 style="font-size: 70px; margin-top: 6%" class="h1_css"><span>Guardioes do Planeta</span></h1>
+        <br/>
+        
+        <div class="div1">
+            
+            <div class="div2">
+                <h:link onclick="glow()" outcome="selecionar_nivel">
+                    <h:graphicImage id="play" onclick="glow();" value = "/images/play2.png" styleClass="img_play"/> 
+                </h:link>
+            </div>
+            
+            <div class="div2">
+                <p:button value="Consultar REGRAS" outcome="regras" icon="pi pi-search-plus"
+                          styleClass="ui-button-raised ui-button-success button"
+                          style="font-family: 'Lemonade Stand', sans-serif; font-size: 20px;"/>
+            </div>
+            
+            <div class="div2">
+                <p:button value="Sair do JOGO" onclick="sairJogo();" icon="pi pi-sign-out"
+                          styleClass="ui-button-raised ui-button-danger button" 
+                          style="font-family: 'Lemonade Stand', sans-serif; font-size: 20px;"/>
+            </div>
+        
+        </div>
+    </h:body>
+</html>
+

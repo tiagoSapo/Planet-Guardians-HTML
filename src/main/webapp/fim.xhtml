@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Guardiões do Planeta - REGRAS</title>
+        <link href="http://fonts.cdnfonts.com/css/lemonade-stand" rel="stylesheet"/>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: 'Lemonade Stand', sans-serif;
+            }
+            .body_fundo {
+                background:url(#{request.contextPath}/images/main2.jpg) no-repeat center center fixed;
+                background-size: cover;
+            }
+            .h1_css  {
+                border-radius: 25px;
+                display: table; /* keep the background color wrapped tight */
+                margin: 20px auto 0px auto; /* keep the table centered */
+                padding: 10px;
+                text-align: center;
+                color: white;
+                font-weight: 100;
+                background: rgba(85, 58, 1, 0.8);
+                backdrop-filter: saturate(180%) blur(10px);
+            }
+            .texto {
+                background: rgba(41, 51, 33, 0.8);
+                backdrop-filter: saturate(180%) blur(10px);
+                border-radius: 5px;
+
+                width: 70%;
+                height: 30%;
+                font-size: 40px;
+                margin: 0 auto;
+                padding: 10px 0 10px 0;
+                overflow-y: scroll;
+                text-align: center;
+                color: white;
+                font-weight: 100;
+
+                color: rgb(198, 195, 179);
+            }
+            .imagem_feliz {
+                background: transparent;
+                border-radius: 5px;
+
+                width: 70%;
+                margin: 0 auto;
+                padding: 10px 0 10px 0;
+                overflow-y: scroll;
+                text-align: center;
+                color: white;
+                font-weight: 100;
+
+                color: rgb(198, 195, 179);
+            }
+            .simnao {
+                background: transparent;
+                border-radius: 5px;
+
+                width: 70%;
+                height: 40%;
+                margin: 0 auto;
+                padding: 10px 0 10px 0;
+                overflow-y: scroll;
+                text-align: center;
+                color: white;
+                font-weight: 100;
+
+                color: rgb(198, 195, 179);
+            }
+            .img_return {
+                background:url(#{request.contextPath}/images/return2.jpg);
+                width: 150px;
+                height: 150px;
+                padding: 10px;
+            }
+            .clicavel {
+                cursor: pointer;
+            }
+            .div_regressar {
+                display: block;
+                float: left;
+                z-index: 3;
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
+            li {
+                margin: 30px 0;
+            }
+            ul {
+                text-align: center;
+                list-style: inside;
+            }
+            #question {
+                font-family: 'Arial', sans-serif;
+            }
+            #pergunta, #question {
+                display: inline;
+            }
+            .imagem_feliz_pic {
+                width: 220px;
+                height: 220px;
+                padding: 10px;
+            }
+        </style>
+    </h:head>
+    <h:body styleClass="body_fundo">
+        <div class="div_regressar clicavel">
+        </div>
+        <h1 class="h1_css" align="center"> <span>JOGO TERMINADO</span> </h1>
+        <br/>
+        <div class="texto">
+            <p>Parabens! Ganharam o jogo.</p>
+            <p id="pergunta">Querem jogar noutro cenario</p><p id="question">?</p>
+        </div>
+        <div class="imagem_feliz">
+            <h:graphicImage value = "/images/end.png" styleClass="imagem_feliz_pic"/>
+        </div>
+        <div class="simnao">
+            
+            <span>
+                <p:button value="SIM" outcome="selecionar_nivel" icon="pi pi-check"
+                          styleClass="ui-button-raised ui-button-success button"
+                          style="font-family: 'Lemonade Stand', sans-serif; padding: 10px 100px 10px 100px; font-size: 20px;"/>
+            </span>
+            <span>
+                <p:button value="NAO" outcome="index" icon="pi pi-times"
+                          styleClass="ui-button-raised ui-button-danger"
+                          style="font-family: 'Lemonade Stand', sans-serif; padding: 10px 100px 10px 100px; font-size: 20px;"/>
+            </span>
+        </div>
+
+    </h:body>
+</html>
+

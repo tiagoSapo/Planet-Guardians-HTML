@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:li="http://primefaces.org/ui">
+    <h:head>
+        <title>Guardiões do Planeta - REGRAS</title>
+        <link href="http://fonts.cdnfonts.com/css/lemonade-stand" rel="stylesheet"/>
+        <style>
+            body, html {
+              height: 100%;
+              margin: 0;
+              font-family: 'Lemonade Stand', sans-serif;
+            }
+            .body_fundo {
+                background:url(#{request.contextPath}/images/main2.jpg) no-repeat center center fixed;
+                background-size: cover;
+            }
+            .h1_css  {
+                border-radius: 25px;
+                display: table; /* keep the background color wrapped tight */
+                margin: 20px auto 0px auto; /* keep the table centered */
+                padding: 10px;
+                text-align: center; color: white; font-weight: 100; 
+                background: rgba(85, 58, 1, 0.8);
+                backdrop-filter: saturate(180%) blur(10px);
+            }
+            .texto {
+                background: rgba(41, 51, 33, 0.8);
+                backdrop-filter: saturate(180%) blur(10px);
+                border-radius: 5px;
+                
+                width: 50%;
+                height: 80%;
+                margin: 0 auto;
+                padding: 10px 0 10px 0;
+                overflow-y: scroll;
+                
+
+                color: rgb(198, 195, 179);
+            }
+            .img_return {
+                background:url(#{request.contextPath}/images/return2.jpg);
+                width: 150px; height: 150px; padding: 10px;
+            }
+            .clicavel {
+                cursor: pointer;
+            }
+            .div_regressar {
+                display: block;
+                float: left;  
+                z-index: 3;
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
+            li {
+                margin: 30px 0;
+            }
+            ul {
+                
+                list-style: inside;
+            }
+        </style>
+    </h:head>
+    <h:body styleClass="body_fundo">
+        <div class="div_regressar clicavel">
+            <h:link outcome="index">
+                <h:graphicImage value = "/images/return2.png" styleClass="img_return"/> 
+            </h:link>
+        </div>
+        <h1 class="h1_css" align="center"> <span>REGRAS</span> </h1>
+        <br/>
+        <div class="texto">
+            <ul>
+                <li><b>Regra 1:</b> A mesa multitoque esta divida em 4 areas.</li>
+                <li><b>Regra 2:</b> Cada jogar deve jogar na sua area respetiva.</li>
+                <li><b>Regra 3:</b> Cada jogador esta associado a um ecoponto.</li>
+                <li><b>Regra 4:</b> O jogador deve colocar o lixo para o jogador que acha ter o ecoponto correspondente desse lixo.</li>
+                <li><b>Regra 5:</b> No ecoponto amarelo e inserido o lixo do plastico.</li>
+                <li><b>Regra 6:</b> No ecoponto verde e inserido o lixo do vidro.</li>
+                <li><b>Regra 7:</b> No ecoponto azul e inserido o lixo do papel/cartao.</li>
+                <li><b>Regra 8:</b> No contentor da compostagem e colocado o lixo nao-reciclavel.</li>
+                <li><b>Regra 9:</b> O jogo acaba quando tiver sido recolhido todo o lixo.</li>
+                <li><b>Regra 10:</b> O jogo inicia quando inicia o contador do tempo.</li>
+                <li><b>Regra 11:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 12:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 13:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 14:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 15:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 16:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 17:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 18:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 19:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+                <li><b>Regra 20:</b> Fazer qualquer coisa que para fazer outra coisa e assim</li>
+            </ul>
+        </div>
+        <!--<h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />-->
+    </h:body>
+</html>
+

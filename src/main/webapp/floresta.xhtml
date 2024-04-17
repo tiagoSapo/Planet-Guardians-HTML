@@ -1,0 +1,656 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Guardiões do Planeta - JOGO</title>
+        <link href="http://fonts.cdnfonts.com/css/lemonade-stand" rel="stylesheet"/>
+        <script src="https://unpkg.com/interactjs@1.10.11/dist/interact.min.js"></script>
+        <style>
+
+            html{
+                touch-action:none;
+            }
+            .popup {
+                position: relative;
+                display: inline-block;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                font-size: 0.65em;
+            }
+
+            /* The actual popup */
+            .popup .popuptext {
+                visibility: hidden;
+                width: 160px;
+                background-color: rgba(220,20,60, 0.9);
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 8px 0;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -80px;
+            }
+
+            /* Popup arrow */
+            .popup .popuptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: rgb(220,20,60) transparent transparent transparent;
+            }
+
+            /* Toggle this class - hide and show the popup */
+            .popup .show {
+                visibility: visible;
+                -webkit-animation: fadeIn 2s;
+                animation: fadeIn 2s;
+            }
+
+            /* Add animation (fade in the popup) */
+            @-webkit-keyframes fadeIn {
+                0% {
+                    opacity:0;
+                }
+                25% {
+                    opacity:1;
+                }
+                75% {
+                    opacity:1;
+                }
+                100% {
+                    opacity:0;
+                    visibility: hidden;
+                }
+            }
+
+            @keyframes fadeIn {
+                0% {
+                    opacity:0;
+                }
+                25% {
+                    opacity:1;
+                }
+                75% {
+                    opacity:1;
+                }
+                100% {
+                    opacity:0;
+                    visibility: hidden;
+                }
+            }
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: 'Lemonade Stand', sans-serif;
+            }
+            .body_fundo {
+                background:url(#{request.contextPath}/images/game/forest.jpg) no-repeat center center fixed;
+                background-size: cover;
+            }
+            div.contentor {
+                display: grid;
+                width: 100%;
+                height: 100%;
+                color: white;
+                grid-template-columns: 1fr 4fr 1fr;
+                grid-template-rows: 1fr 3fr 1fr;
+                grid-template-areas:
+                    "head head head"
+                    "panleft mainbody panright"
+                    "foot foot foot";
+            }
+
+            div.header {
+                -webkit-backdrop-filter: saturate(180%) blur(1px);
+                backdrop-filter: saturate(180%) blur(1px);
+                background: rgba(23, 74, 0, 0.8);                             /* 20% black */
+                grid-area: head;                /* head corresponds to name in template */
+                margin-left: 25%;
+                margin-right: 25%;
+                margin-top: 1%;
+                border: 2px solid rgba(23, 74, 0, 0.8);
+                border-radius: 15px;
+                text-align: center;
+                text-orientation: inherit;
+                -webkit-transform: rotate(180deg);
+            }
+            div.footer {
+                -webkit-backdrop-filter: saturate(180%) blur(1px);
+                backdrop-filter: saturate(180%) blur(1px);
+                background: rgba(8,90,197,0.8);
+                grid-area: foot;
+                margin-left: 25%;
+                margin-right: 25%;
+                height: 90%;
+                border: 2px solid rgba(8,90,197,0.8);
+                border-radius: 15px;
+                text-align: center;
+            }
+            div.panel.left {
+                -webkit-backdrop-filter: saturate(180%) blur(1px);
+                backdrop-filter: saturate(180%) blur(1px);
+                background: rgba(217, 209, 67, 0.8); /* with both "panel" and "left" class */
+                grid-area: panleft;
+                margin-left: 10%;
+                margin-right: 20%;
+                border: 2px solid rgba(217, 209, 67, 0.8);
+                border-radius: 15px;
+                text-align: center;
+                writing-mode: vertical-rl;
+                text-orientation: inherit;
+            }
+            div.panel.right {
+                -webkit-backdrop-filter: saturate(180%) blur(1px);
+                backdrop-filter: saturate(180%) blur(1px);
+                background: rgba(60,60,60,0.9);
+                grid-area: panright;
+                margin-right: 10%;
+                margin-left: 15%;
+                border: 2px solid rgba(60,60,60,0.9);
+                border-radius: 15px;
+                text-align: center;
+                writing-mode: vertical-rl;
+                text-orientation: inherit;
+                -webkit-transform: rotate(180deg);
+            }
+            div.mainbody {
+                grid-area: mainbody;
+            }
+            .img_quadrado {
+                margin-left: 10px;
+                object-fit: fill;
+                width: 100px;
+                height: 70px;
+            }
+            .img_retangulo {
+                margin-left: 10px;
+                object-fit: fill;
+                width: 150px;
+                height: 150px;
+                padding: 10px;
+            }
+            .img_retangulo2 {
+                margin-left: 10px;
+                object-fit: fill;
+                width: 80px;
+                height: 150px;
+                padding: 10px;
+            }
+            .img_garrafa {
+                margin: 1px;
+                width: 110px;
+                height: 120px;
+            }
+            .img_atum {
+                margin: 5px;
+                width: 80px;
+                height: 55px;
+            }
+            .img_leite {
+                margin: 5px;
+                width: 55px;
+                height: 100px;
+            }
+            .img_sumo {
+                margin: 5px;
+                width: 50px;
+                height: 95px;
+            }
+            .img_banana {
+                margin: 5px;
+                width: 55px;
+                height: 100px;
+            }
+            .img_frasco {
+                margin: 10px;
+                width: 55px;
+                height: 80px;
+            }
+            .img_cereais {
+                margin: 1px;
+                width: 80px;
+                height: 120px;
+            }
+            .img_pastilha {
+                margin: 5px;
+                width: 95px;
+                height: 110px;
+            }
+            .clicavel {
+                cursor: pointer;
+            }
+            .div_regressar {
+                display: block;
+                float: left;
+                z-index: 3;
+                position: absolute;
+            }
+            .img_return {
+                margin-left: 10px;
+                object-fit: fill;
+                width: 25%;
+                height: 170px;
+                margin-top: 10%;
+                width: 150px;
+                height: 120px;
+                padding: 20px;
+            }
+            .img_music {
+                margin-left: 10px;
+                object-fit: fill;
+                width: 25%;
+                height: 170px;
+                margin-top: 10%;
+                width: 120px;
+                height: 120px;
+                padding: 20px;
+            }
+            #mydiv1 {
+                position: absolute;
+            }
+            #mydiv2 {
+                position: absolute;
+            }
+            #mydiv3 {
+                position: absolute;
+            }
+            #mydiv4 {
+                position: absolute;
+            }
+            #mydiv5 {
+                position: absolute;
+            }
+            #mydiv6 {
+                position: absolute;
+            }
+            #mydiv7 {
+                position: absolute;
+            }
+            #mydiv8 {
+                position: absolute;
+            }
+        </style>
+
+        <script>
+            function pick() {
+                new Audio("../images/music/tap.mp3").play();
+            }
+            function drop_vidro() {
+                new Audio("../images/music/glass_drop.mp3").play();
+            }
+            function drop_papel() {
+                new Audio("../images/music/paper_drop.wav").play();
+            }
+            function drop_metal() {
+                new Audio("../images/music/metal_drop.wav").play();
+            }
+            function drop_tuna() {
+                new Audio("../images/music/tuna.wav").play();
+            }
+            function drop_banana() {
+                new Audio("../images/music/banana_drop.mp3").play();
+            }
+            function drop_gum() {
+                new Audio("../images/music/gum.mp3").play();
+            }
+            function music() {
+                new Audio("../images/trash/music_background.mp3").play();
+            }
+            function correct() {
+                new Audio("../images/music/correct.mp3").play();
+            }
+            function wrong() {
+                new Audio("../images/music/wrong.wav").play();
+            }
+            var music_on = true;
+            function parar_musica() {
+                if (music_on) {
+                    document.getElementById("music").pause();
+                    document.getElementById("music_stop").src = "../images/no_music.png";
+                    music_on = false;
+                } else {
+                    document.getElementById("music").play();
+                    document.getElementById("music_stop").src = "../images/music_button.png";
+                    music_on = true;
+                }
+            }
+            window.onload = function () {
+                document.getElementById("music").play();
+                music_on = true;
+            };
+            window.onbeforeunload = function (e) {
+                document.getElementById("music").pause();
+                music_on = false;
+            };
+        </script>
+
+    </h:head>
+    <h:body styleClass="body_fundo">
+        <audio id="music" src="../images/trash/music_background.mp3" loop="loop"></audio>
+
+        <div onclick="glow()" class="div_regressar clicavel">
+            <h:link outcome="index">
+                <h:graphicImage id="return" value = "/images/power.png" styleClass="img_return"/> 
+            </h:link>
+            <h:graphicImage id="music_stop" onclick="parar_musica()" value = "/images/music_button.png" styleClass="img_music"/> 
+        </div>
+
+
+        <div id="containter" class="contentor">
+            <div class="header">Ecoponto Verde</div>
+            <div class="panel left">Ecoponto Amarelo</div>
+            <div class="panel right">Compostagem</div>
+            <div class="footer">Ecoponto Azul</div>
+            <div class="mainbody">
+                <div id="mydiv1" draggable="true" class="popup" ontouchend="drop_vidro();" ontouchstart="pick();" style="left:68%; top:20%">
+                    <h:graphicImage  id="mydiv1header" value="/images/trash/bottle.png" styleClass="img_garrafa"/>
+                    <span class="popuptext" id="mydiv1Popup"></span>
+                </div>
+                <div id="mydiv2" class="popup" draggable="true" ontouchend="drop_tuna();" ontouchstart="pick();" style="left:30%; top:25%">
+                    <h:graphicImage id="mydiv2header" value="/images/trash/tuna_can.png" styleClass="img_atum"/>
+                    <span class="popuptext" id="mydiv2Popup"></span>
+                </div>
+                <div id="mydiv3" draggable="true" class="popup" onmouseup="drop_papel();" onmousedown="pick();" style="left:25%;top:35%;">
+                    <h:graphicImage id="mydiv3header" value="/images/trash/milk.png" styleClass="img_leite"/>
+                    <span class="popuptext" id="mydiv3Popup"></span>
+                </div>
+                <div id="mydiv4" class="popup" draggable="true" onmouseup="drop_metal();" onmousedown="pick();" style="left:45%;top: 20%;">
+                    <h:graphicImage id="mydiv4header" value="/images/trash/juice_can.png" styleClass="img_sumo"/>
+                    <span class="popuptext" id="mydiv4Popup"></span>
+                </div>
+                <div id="mydiv5" class="popup" draggable="true" onmouseup="drop_banana();" onmousedown="pick();" style="left:45%;top: 50%;">
+                    <h:graphicImage id="mydiv5header" value="/images/trash/banana.png" styleClass="img_banana"/>
+                    <span class="popuptext" id="mydiv5Popup"></span>
+                </div>
+                <div id="mydiv6" draggable="true" class="popup" onmouseup="drop_vidro();" onmousedown="pick();" style="left:28%;top: 60%;">
+                    <h:graphicImage id="mydiv6header" value="/images/trash/jar.png" styleClass="img_frasco"/>
+                    <span class="popuptext" id="mydiv6Popup"></span>
+                </div>
+                <div id="mydiv7" class="popup" draggable="true" onmouseup="drop_papel();" onmousedown="pick();" style="left:55%;top: 40%;">
+                    <h:graphicImage id="mydiv7header" value="/images/trash/cereal.png" styleClass="img_cereais"/>
+                    <span class="popuptext" id="mydiv7Popup"></span>
+                </div>
+                <div id="mydiv8" class="popup" draggable="true" onmouseup="drop_gum();" onmousedown="pick();" style="left:65%;top: 60%;">
+                    <h:graphicImage id="mydiv8header" value="/images/trash/gum.png" styleClass="img_pastilha"/>
+                    <span class="popuptext" id="mydiv8Popup"></span>
+                </div>
+            </div>
+
+
+        </div>
+        <script>
+            var garrafa_ok = false;
+            var atum_ok = false;
+            var frasco_ok = false;
+            var leite_ok = false;
+            var sumo_ok = false;
+            var banana_ok = false;
+            var pastilha_ok = false;
+            var cereais_ok = false;
+
+            function verificaCoordenadas(elmnt, nome, pos3, pos4) {
+
+                var amarelo = false;
+                var verde = false;
+                var azul = false;
+                var compostagem = false;
+
+
+                console.log("VerificaCoordenadas => " + pos3 + ", " + pos4);
+
+                //<![CDATA[ 
+                if (pos3 > 0 && pos3 < 220 && pos4 > 160 && pos4 < 560) {
+                    console.log("Amarelo");
+                    amarelo = true;
+                } else if (pos3 > 380 && pos3 < 1060 && pos4 > 0 && pos4 < 120) {
+                    console.log("Verde");
+                    verde = true;
+                } else if (pos3 > 380 && pos3 < 1060 && pos4 > 580) {
+                    console.log("Azul");
+                    azul = true;
+                } else if (pos3 > 1220 && pos4 > 160 && pos4 < 580) {
+                    console.log("Compostagem");
+                    compostagem = true;
+                }
+                //]]>
+
+                switch (nome) {
+                    case "mydiv1":
+                        garrafa(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv2":
+                        atum(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv3":
+                        leite(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv4":
+                        sumo(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv5":
+                        banana(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv6":
+                        frasco(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv7":
+                        cereais(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    case "mydiv8":
+                        pastilha(elmnt, verde, amarelo, azul, compostagem);
+                        break;
+                    default:
+                }
+
+                //document.onmouseup = null;
+                //document.onmousemove = null;
+
+                jogoTerminou();
+            }
+
+
+            function garrafa(elmnt, verde, amarelo, azul, compostagem) {
+                if (verde) {
+                    garrafa_ok = true;
+                    elmnt.style.backgroundColor = "rgba(16,50,0,0.7)";
+                } else if (amarelo || azul || compostagem) {
+                    garrafa_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "A garrafa e' vidro", true);
+                } else {
+                    garrafa_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function atum(elmnt, verde, amarelo, azul, compostagem) {
+                if (amarelo) {
+                    atum_ok = true;
+                    elmnt.style.backgroundColor = "rgb(118,114,36,0.8)";
+                } else if (verde || azul || compostagem) {
+                    atum_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "Lata de atum e' metal", true);
+                } else {
+                    atum_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function leite(elmnt, verde, amarelo, azul, compostagem) {
+                if (azul) {
+                    leite_ok = true;
+                    elmnt.style.backgroundColor = "rgba(5,40,86,0.7)";
+                } else if (verde || amarelo || compostagem) {
+                    leite_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "O pacote de leite e' papel", true);
+                } else {
+                    leite_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function sumo(elmnt, verde, amarelo, azul, compostagem) {
+                if (amarelo) {
+                    sumo_ok = true;
+                    elmnt.style.backgroundColor = "rgb(118,114,36,0.8)";
+                } else if (verde || azul || compostagem) {
+                    sumo_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "A lata de sumo e' metal", true);
+                } else {
+                    sumo_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function banana(elmnt, verde, amarelo, azul, compostagem) {
+                if (compostagem) {
+                    banana_ok = true;
+                    elmnt.style.backgroundColor = "rgba(24,24,24,0.7)";
+                } else if (verde || azul || amarelo) {
+                    banana_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "A banana nao e' reciclavel", true);
+                } else {
+                    banana_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function frasco(elmnt, verde, amarelo, azul, compostagem) {
+
+                if (verde) {
+                    frasco_ok = true;
+                    elmnt.style.backgroundColor = "rgba(16,50,0,0.7)";
+                } else if (compostagem || azul || amarelo) {
+                    frasco_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "O frasco e' vidro", true);
+                } else {
+                    frasco_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function cereais(elmnt, verde, amarelo, azul, compostagem) {
+                if (azul) {
+                    cereais_ok = true;
+                    elmnt.style.backgroundColor = "rgba(5,40,86,0.7)";
+                } else if (verde || compostagem || amarelo) {
+                    cereais_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "O pacote de cereais e' papel", true);
+                } else {
+                    cereais_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+            function pastilha(elmnt, verde, amarelo, azul, compostagem) {
+                if (compostagem) {
+                    pastilha_ok = true;
+                    elmnt.style.backgroundColor = "rgba(24,24,24,0.7)";
+                } else if (verde || azul || amarelo) {
+                    pastilha_ok = false;
+                    elmnt.style.backgroundColor = "rgba(220,20,60, 0.9)";
+                    info(elmnt, "A pastilha nao e' reciclavel", true);
+                } else {
+                    pastilha_ok = false;
+                    elmnt.style.backgroundColor = "transparent";
+                }
+            }
+
+
+
+            function jogoTerminou() {
+                //<![CDATA[
+                console.log(garrafa_ok + " " + atum_ok + " " + frasco_ok + " " +
+                        leite_ok + " " + sumo_ok + " " + banana_ok + " " +
+                        pastilha_ok + " " + cereais_ok);
+                if (garrafa_ok && atum_ok && frasco_ok && leite_ok && sumo_ok && banana_ok && pastilha_ok && cereais_ok) {
+                    window.location = "../faces/fim.xhtml";
+                }
+                //]]>
+            }
+            function info(elemento, msg, tipo) {
+                var popup = document.getElementById(elemento.id + "Popup");
+
+
+                popup.classList.toggle("show");
+                popup.innerHTML = msg;
+
+                if (tipo === false) {
+                    popup.style.backgroundColor = "rgb(34,139,34)";
+                }
+
+                setTimeout(function () {
+                    var popup = document.getElementById(elemento.id + "Popup");
+                    popup.classList.toggle("show");
+                }, 2000);
+            }
+        </script>
+
+        <script>
+            //<![CDATA[
+            document.addEventListener("mousemove", function () {
+                console.log("move")
+            });
+
+            document.addEventListener("touchmove", function () {
+                console.log("t move")
+            });
+            // target elements with the "draggable" class
+            interact('[draggable]')
+                    .draggable({
+                        // enable inertial throwing
+                        inertia: true,
+                        restriction: 'parent',
+                        // keep the element within the area of it's parent
+                        modifiers: [
+                            interact.modifiers.restrictRect({
+
+                                endOnly: true
+                            })
+                        ],
+                        // enable autoScroll
+                        autoScroll: false,
+
+                        listeners: {
+                            // call this function on every dragmove event
+                            move: dragMoveListener,
+
+                            // call this function on every dragend event
+                            end(event) {
+
+                                verificaCoordenadas(event.target, event.target.id, event.clientX, event.clientY);
+                            }
+                        }
+                    });
+
+            function dragMoveListener(event) {
+                var target = event.target;
+                // keep the dragged position in the data-x/data-y attributes
+                var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                // translate the element
+                target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+                // update the posiion attributes
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+            }
+
+// this function is used later in the resizing and gesture demos
+            window.dragMoveListener = dragMoveListener;
+            //]]>         
+        </script>
+    </h:body>
+</html>
+
